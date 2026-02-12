@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بطاقة طالب</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            color: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-header {
+            text-align: center;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+        }
+
+        .card-header h1 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-header p {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .student-info {
+            width: 100%;
+            text-align: center;
+        }
+
+        .info-row {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 12px 20px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+        }
+
+        .info-label {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            font-size: 18px;
+            font-weight: 700;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .qr-container {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .qr-container img {
+            display: block;
+            width: 180px;
+            height: 180px;
+            border-radius: 8px;
+        }
+
+        .qr-label {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 12px;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .btn-print {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-print:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn-print:active {
+            transform: translateY(0);
+        }
+
+        .error-message {
+            background: #fed7d7;
+            color: #742a2a;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            border: 2px solid #fc8181;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+
+            .container {
+                max-width: 100%;
+                padding: 0;
+                box-shadow: none;
+                border-radius: 0;
+            }
+
+            .btn-print {
+                display: none;
+            }
+
+            .card {
+                width: 85.6mm;
+                height: 53.98mm;
+                margin: 0 auto;
+                padding: 15px;
+                page-break-after: avoid;
+                box-shadow: none;
+            }
+
+            .card::before {
+                display: none;
+            }
+
+            .card-header h1 {
+                font-size: 16px;
+                margin-bottom: 3px;
+            }
+
+            .card-header p {
+                font-size: 10px;
+            }
+
+            .card-header {
+                padding-bottom: 12px;
+                margin-bottom: 15px;
+            }
+
+            .card-body {
+                flex-direction: row;
+                justify-content: space-between;
+                gap: 10px;
+            }
+
+            .student-info {
+                text-align: right;
+                flex: 1;
+            }
+
+            .info-row {
+                padding: 8px 12px;
+                margin-bottom: 8px;
+            }
+
+            .info-label {
+                font-size: 9px;
+                margin-bottom: 3px;
+            }
+
+            .info-value {
+                font-size: 14px;
+            }
+
+            .qr-container {
+                padding: 8px;
+                flex-shrink: 0;
+            }
+
+            .qr-container img {
+                width: 100px;
+                height: 100px;
+            }
+
+            .qr-label {
+                font-size: 8px;
+                margin-top: 5px;
+            }
+
+            .error-message {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                padding: 20px;
+            }
+
+            .qr-container img {
+                width: 150px;
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="errorContainer"></div>
+        
+        <div class="card" id="studentCard">
+            <div class="card-content">
+                <div class="card-header">
+                    <h1>بطاقة طالب</h1>
+                    <p>نظام التحكم بالدخول</p>
+                </div>
+                
+                <div class="card-body">
+                    <div class="student-info">
+                        <div class="info-row">
+                            <div class="info-label">اسم الطالب</div>
+                            <div class="info-value" id="studentName">---</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">رقم الطالب</div>
+                            <div class="info-value" id="studentId">---</div>
+                        </div>
+                    </div>
+                    
+                    <div class="qr-container">
+                        <img id="qrImage" src="" alt="QR Code">
+                        <div class="qr-label">امسح للتحقق</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-print" onclick="printCard()">
+            🖨️ طباعة البطاقة
+        </button>
+    </div>
+
+    <script>
+        // بيانات الطالب - يمكن تغييرها أو تحميلها من localStorage
+        let student = {
+            name: "أحمد محمد علي",
+            id: "STD-2024-001",
+            qr: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+        };
+
+        // محاولة تحميل البيانات من localStorage
+    // محاولة تحميل البيانات من localStorage
+    function loadStudentData() {
+        try {
+            const savedStudent = localStorage.getItem('student');
+            if (savedStudent) {
+                const parsedStudent = JSON.parse(savedStudent);
+                if (parsedStudent.name && parsedStudent.id && parsedStudent.qr) {
+                    student = parsedStudent;
+                    displayStudentData();
+                    return;
+                }
+            }
+        } catch (error) {
+            console.error('Error loading from localStorage:', error);
+        }
+
+        // إذا لم توجد بيانات في localStorage، استخدم البيانات الافتراضية
+        displayStudentData();
+        showWarning();
+    }
+
+        // عرض بيانات الطالب
+     function displayStudentData() {
+        document.getElementById('studentName').textContent = student.name || "---";
+        document.getElementById('studentId').textContent = student.id || "---";
+        document.getElementById('qrImage').src = student.qr || "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==";
+    }
+
+        // عرض رسالة تحذيرية
+        function showWarning() {
+            const errorContainer = document.getElementById('errorContainer');
+            errorContainer.innerHTML = `
+                <div class="error-message">
+                    <strong>تنبيه:</strong> يتم عرض بيانات تجريبية. لعرض بيانات حقيقية، قم بحفظ بيانات الطالب في localStorage أو تعيين متغير student في الكود.
+                </div>
+            `;
+        }
+
+        // وظيفة الطباعة
+        function printCard() {
+            window.print();
+        }
+
+        // تحميل البيانات عند فتح الصفحة
+        window.onload = loadStudentData;
+
+        // مثال على كيفية حفظ البيانات في localStorage (للمطورين)
+
+        // يمكن استدعاء هذه الدالة من صفحة التسجيل بعد نجاح التسجيل
+        function saveStudentToLocalStorage(studentData) {
+            localStorage.setItem('student', JSON.stringify(studentData));
+        }
+
+        // مثال على الاستخدام (غير مفعل):
+        // saveStudentToLocalStorage({
+        //     name: "محمد أحمد",
+        //     id: "STD-2024-002",
+        //     qr: "data:image/png;base64,..."
+        // });
+    </script>
+</body>
+</html>
